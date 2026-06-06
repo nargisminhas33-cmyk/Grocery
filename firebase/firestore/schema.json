@@ -1,0 +1,105 @@
+
+{
+  "collections": {
+    "users": {
+      "fields": {
+        "uid": "string",
+        "name": "string",
+        "mobileNumber": "string",
+        "email": "string",
+        "deliveryAddress": "map",
+        "gpsLocation": "geopoint",
+        "preferredLanguage": "string",
+        "role": "string" 
+      }
+    },
+    "shops": {
+      "fields": {
+        "shopId": "string",
+        "shopName": "string",
+        "ownerName": "string",
+        "phoneNumber": "string",
+        "whatsappNumber": "string",
+        "tradeLicenseNumber": "string",
+        "address": "map",
+        "gpsCoordinates": "geopoint",
+        "openingHours": "map",
+        "deliveryRadius": "number",
+        "status": "string", 
+        "rating": "number",
+        "responsePerformance": "number"
+      }
+    },
+    "products": {
+      "fields": {
+        "productId": "string",
+        "shopId": "string",
+        "name": "string",
+        "description": "string",
+        "category": "string",
+        "price": "number",
+        "stock": "number",
+        "imageUrl": "string"
+      }
+    },
+    "orders": {
+      "fields": {
+        "orderId": "string",
+        "customerId": "string",
+        "shopId": "string",
+        "orderDate": "timestamp",
+        "totalAmount": "number",
+        "status": "string", 
+        "deliveryAddress": "map",
+        "paymentMethod": "string"
+      }
+    },
+    "order_items": {
+      "fields": {
+        "orderItemId": "string",
+        "orderId": "string",
+        "productId": "string",
+        "quantity": "number",
+        "price": "number"
+      }
+    },
+    "notifications": {
+      "fields": {
+        "notificationId": "string",
+        "userId": "string", 
+        "message": "string",
+        "timestamp": "timestamp",
+        "isRead": "boolean"
+      }
+    },
+    "commissions": {
+      "fields": {
+        "commissionId": "string",
+        "shopId": "string",
+        "orderId": "string",
+        "amount": "number",
+        "type": "string" 
+      }
+    },
+    "payments": {
+      "fields": {
+        "paymentId": "string",
+        "orderId": "string",
+        "amount": "number",
+        "status": "string",
+        "paymentGateway": "string", 
+        "transactionId": "string"
+      }
+    },
+    "analytics": {
+      "fields": {
+        "analyticsId": "string",
+        "date": "timestamp",
+        "totalOrders": "number",
+        "totalRevenue": "number",
+        "newCustomers": "number",
+        "newShops": "number"
+      }
+    }
+  }
+}

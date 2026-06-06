@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function hasRole(role) {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == role;
+    }
+
+    match /users/{userId} {
+      allow read, write: if request.auth.uid == userId || hasRole('admin');
+    }
+
+    match /shops/{shopId} {
+      allow read: if true;
+      allow write: if hasRole('admin') || (request.auth.uid == (exists(/databases/$(database)/documents/shops/$(shopId)) ? resource.data.ownerId : request.resource.data.ownerId));
+    }
+
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if hasRole('admin') || get(/databases/$(database)/documents/shops/$(request.resource.data.shopId)).data.ownerId == request.auth.uid;
+    }
+
+    match /orders/{orderId} {
+      allow read: if hasRole('admin') || 
+                   request.auth.uid == resource.data.customerId || 
+                   get(/databases/$(database)/documents/shops/$(resource.data.shopId)).data.ownerId == request.auth.uid;
+      allow write: if hasRole('admin') || request.auth.uid == (exists(/databases/$(database)/documents/orders/$(orderId)) ? resource.data.customerId : request.resource.data.customerId);
+    }
+
+    match /order_items/{orderItemId} {
+      allow read: if hasRole('admin') ||
+                   get(/databases/$(database)/documents/orders/$(resource.data.orderId)).data.customerId == request.auth.uid ||
+                   get(/databases/$(database)/documents/shops/$(get(/databases/$(database)/documents/orders/$(resource.data.orderId)).data.shopId)).data.ownerId == request.auth.uid;
+    }
+  }
+}
